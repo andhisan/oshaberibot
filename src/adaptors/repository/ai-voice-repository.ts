@@ -8,6 +8,10 @@ import type { ISpeaker } from "@/application/interfaces/speaker.interface";
 import type { ITranscriber } from "@/application/interfaces/transcriber.interface";
 import { safeEnv } from "@/utils/env";
 
+/**
+ * このリポジトリクラスでAiChatRepositoryをラップすることで、
+ * AiChatRepositoryに対して音声データで入出力できる
+ */
 export class AiVoiceRepository implements IAiVoiceRepository {
 	private readonly logger: Logger;
 	private readonly kv: IKv;

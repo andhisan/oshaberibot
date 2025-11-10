@@ -1,3 +1,9 @@
+/**
+ * botのメインプロセスを定義するファイル
+ * 
+ * @packageDocumentation
+ */
+
 import { ActivityType, Client, Events, GatewayIntentBits } from "discord.js";
 import {
 	registerCommands,
@@ -17,8 +23,8 @@ const client = new Client({
 	intents: [
 		GatewayIntentBits.Guilds,
 		GatewayIntentBits.GuildMessages,
-		GatewayIntentBits.GuildVoiceStates,
-		GatewayIntentBits.MessageContent,
+		GatewayIntentBits.GuildVoiceStates, // VCのために必要
+		GatewayIntentBits.MessageContent, // 会話のために必要
 	],
 	presence: {
 		activities: [
@@ -30,15 +36,18 @@ const client = new Client({
 	},
 });
 
+// メッセージに返答する
 client.on(Events.MessageCreate, async (message) =>
 	MessageCreate.handler(client, message),
 );
 
+// コマンドに応答する
 client.on(
 	Events.InteractionCreate,
 	async (interaction) => await InteractionCreate.handler(client, interaction),
 );
 
+// VCで会話する
 client.on(
 	Events.VoiceStateUpdate,
 	async (oldState, newState) =>
@@ -62,6 +71,8 @@ client.once(Events.ClientReady, async (client) => {
 });
 
 function shutdown(signal: NodeJS.Signals) {
+	// FIXME: VCに残っているbotをここで退出させるべき?
+
 	logger.info(`${signal}: SHUTTING DOWN`);
 	void client.destroy().then(() => process.exit(0));
 }

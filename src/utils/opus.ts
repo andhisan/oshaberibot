@@ -3,6 +3,7 @@ import { safeEnv } from "./env";
 
 /**
  * opus -> PCM
+ * @returns でコードしたデータ; 失敗時はnull
  * @see https://qiita.com/TanakaTakeshikun/items/141ab84b91f33d21f03c
  */
 export async function decodeOpus(OpusStream: Buffer): Promise<Buffer | null> {

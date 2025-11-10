@@ -2,6 +2,9 @@ import type { Client, Interaction } from "discord.js";
 import { handleCommandInteraction } from "@/application/handler";
 import { logger } from "@/utils/logger";
 
+/**
+ * コマンドに対する反応の定義
+ */
 export const InteractionCreate = {
 	async handler(_client: Client, interaction: Interaction) {
 		// コマンド以外は無視する

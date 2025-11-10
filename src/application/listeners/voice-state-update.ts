@@ -3,6 +3,9 @@ import type { Client, VoiceState } from "discord.js";
 import { logger } from "@/utils/logger";
 import { End, Start } from "./connection-receiver-speaking";
 
+/**
+ * VCのステータス変化に対する反応の定義
+ */
 export const VoiceStateUpdate = {
 	async handler(client: Client, oldState: VoiceState, newState: VoiceState) {
 		// ミュートでも反応してしまうので無視
@@ -33,7 +36,7 @@ export const VoiceStateUpdate = {
 			// チャンネル参加時
 		}
 		if (statusChk && oldState.channel) {
-			// 全員抜けた場合
+			// 全員抜けた場合、botもVCを抜ける
 			connection?.destroy();
 			logger.debug("destroyed connection");
 		}

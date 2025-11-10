@@ -6,6 +6,9 @@ import {
 import { safeEnv } from "@/utils/env";
 import { logger } from "@/utils/logger";
 
+/**
+ * テキストメッセージに対する反応の定義
+ */
 export const MessageCreate = {
 	async handler(client: Client, message: OmitPartialGroupDMChannel<Message>) {
 		if (safeEnv.DISCORD_GUILD_COMMAND_CHANNEL_ID !== "") {

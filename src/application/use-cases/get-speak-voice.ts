@@ -11,6 +11,9 @@ import { Minimax } from "@/drivers/speakers/minimax";
 import { GoogleSpeech } from "@/drivers/transcribers/google-speech";
 import { AI_PROVIDER } from "@/utils/env";
 
+/**
+ * 音声データに対する応答を音声データで返却するユースケース
+ */
 export class GetSpeakVoice {
 	private readonly logger: Logger;
 
@@ -23,13 +26,18 @@ export class GetSpeakVoice {
 		audioBuffer,
 	}: {
 		user: User;
+		/** 音声データ */
 		audioBuffer: Buffer;
 	}): Promise<Buffer | undefined> {
+		// 以下、サービスクラスを直接初期化している
+		// つまり、この処理においてはこのユースケースレベルで依存が決定される
 		const agent =
 			AI_PROVIDER === "google"
 				? new Gemini(this.logger, user)
 				: new OpenAI(this.logger, user);
 		const kv = new Ioredis();
+
+		// Gemini、Redisを使って会話を開始する
 		const aiChatRepository = new AiChatRepository(
 			this.logger,
 			kv,
@@ -37,7 +45,9 @@ export class GetSpeakVoice {
 			new AiPromptRepository(this.logger, kv),
 			new AiLimitRepository(this.logger, kv, agent),
 		);
+		// Google Speech to Textを使って文字起こしする
 		const transcriber = new GoogleSpeech(this.logger);
+		// Minimaxを使って応答を音声化する
 		const speaker = new Minimax(this.logger);
 		const aiVoiceRepository = new AiVoiceRepository(
 			this.logger,

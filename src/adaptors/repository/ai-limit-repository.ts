@@ -9,6 +9,9 @@ import {
 import { LimitModelStatus } from "@/domains/entities/ai/limit-model-status";
 import { safeEnv } from "@/utils/env";
 
+/**
+ * ユーザーのリミット情報をRedisから読み書きするリポジトリクラス
+ */
 export class AiLimitRepository implements IAiLimitRepository {
 	private readonly logger: Logger;
 	private readonly kv: IKv;
