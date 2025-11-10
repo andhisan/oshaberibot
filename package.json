@@ -1,0 +1,58 @@
+{
+	"name": "oshaberibot",
+	"private": true,
+	"version": "0.1.1",
+	"author": "andhisan",
+	"type": "module",
+	"main": "dist/main.js",
+	"scripts": {
+		"postinstall": "[ -z \"$NO_POSTINSTALL\" ] && npx lefthook install || true",
+		"prebuild": "rimraf dist",
+		"build": "rollup -c --configPlugin @rollup/plugin-typescript",
+		"dev": "concurrently 'npm run watch' 'sleep 5 && npm run nodemon-bot'",
+		"watch": "rollup -c --configPlugin @rollup/plugin-typescript --watch",
+		"nodemon-bot": "NODE_ENV=development IS_DEV=true nodemon dist/main",
+		"preview-bot": "NODE_ENV=production IS_DEV=true node dist/main",
+		"check": "biome check --no-errors-on-unmatched --files-ignore-unknown=true --colors=off --vcs-enabled=true --vcs-use-ignore-file=true",
+		"typecheck": "tsc --noEmit",
+		"format": "biome format --write ."
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.2.5",
+		"@rollup/plugin-json": "^6.1.0",
+		"@rollup/plugin-node-resolve": "^16.0.1",
+		"@rollup/plugin-replace": "^6.0.2",
+		"@rollup/plugin-terser": "^0.4.4",
+		"@rollup/plugin-typescript": "^12.1.2",
+		"@tsconfig/node22": "^22.0.2",
+		"@types/node": "^22.10.7",
+		"concurrently": "^9.1.2",
+		"lefthook": "^1.11.12",
+		"nodemon": "^3.1.10",
+		"rimraf": "^6.0.1",
+		"rollup": "^4.40.2",
+		"rollup-plugin-license": "^3.6.0",
+		"tsx": "^4.19.4",
+		"typescript": "^5.8.3"
+	},
+	"engines": {
+		"node": "^22"
+	},
+	"dependencies": {
+		"@discordjs/opus": "^0.10.0",
+		"@discordjs/voice": "^0.18.0",
+		"@google-cloud/speech": "^7.1.0",
+		"@google/genai": "^1.22.0",
+		"create-redis-key": "^1.0.1",
+		"dayjs": "^1.11.13",
+		"discord.js": "^14.19.3",
+		"dotenv": "^16.5.0",
+		"envsafe": "^2.0.3",
+		"ffmpeg-static": "^5.2.0",
+		"ioredis": "^5.6.1",
+		"openai": "^4.98.0",
+		"pino": "^9.6.0",
+		"replicate": "^1.0.1",
+		"sharp": "^0.34.4"
+	}
+}

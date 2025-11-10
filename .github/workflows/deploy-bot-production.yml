@@ -1,0 +1,30 @@
+name: 'mainへのpush: デプロイ'
+
+concurrency:
+  group: bot-production
+  cancel-in-progress: true
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [22]
+
+    environment:
+      name: bot-production
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      # COMMIT_SHAを最新にする
+      - run: flyctl secrets set COMMIT_SHA=${{ github.sha }}
+      # ha=falseでマシンの複製を防止する
+      - run: flyctl deploy --remote-only --ha=false
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}

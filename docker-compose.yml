@@ -1,0 +1,44 @@
+services:
+  # npm run dev実行時はこのredisを使ってください
+  redis:
+    image: "valkey/valkey:8"
+    restart: always
+    ports:
+      - "${FORWARD_REDIS_PORT:-6379}:6379"
+    volumes:
+      - "redis:/data"
+    networks:
+      bot:
+    healthcheck:
+      test: ["CMD", "valkey-cli", "ping"]
+      retries: 3
+      timeout: 5s
+
+  # 以下のサービスは、emulateプロファイルを指定することで起動する
+  bot:
+    build:
+      context: .
+    environment:
+      NODE_ENV: development
+      COMMIT_SHA: HEAD
+      LOG_LEVEL: debug
+      REDIS_URL: redis://redis:6379
+      DISCORD_APP_ID: $DISCORD_APP_ID
+      DISCORD_BOT_TOKEN: $DISCORD_BOT_TOKEN
+      DISCORD_GUILD_ID: $DISCORD_GUILD_ID
+      DISCORD_GUILD_COMMAND_CHANNEL_ID: $DISCORD_GUILD_COMMAND_CHANNEL_ID
+      DISCORD_GUILD_VOICE_CHANNEL_ID: $DISCORD_GUILD_VOICE_CHANNEL_ID
+      GOOGLE_PROJECT_ID: $GOOGLE_PROJECT_ID
+      GOOGLE_APPLICATION_CREDENTIALS_BASE64: $GOOGLE_APPLICATION_CREDENTIALS_BASE64
+      OPENAI_API_KEY: $OPENAI_API_KEY
+      REPLICATE_API_TOKEN: $REPLICATE_API_TOKEN
+    networks:
+      - bot
+    restart: always
+    profiles:
+      - emulate
+networks:
+  bot:
+    driver: bridge
+volumes:
+  redis:

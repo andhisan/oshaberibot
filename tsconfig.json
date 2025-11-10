@@ -1,0 +1,17 @@
+{
+	"extends": "@tsconfig/node22",
+	"compilerOptions": {
+		"module": "ESNext",
+		"moduleResolution": "bundler",
+		"types": ["node"],
+		"noEmit": true,
+		"forceConsistentCasingInFileNames": true,
+		"resolveJsonModule": true,
+		"verbatimModuleSyntax": true,
+		"baseUrl": "./src/",
+		"paths": {
+			"@/*": ["./*"]
+		}
+	},
+	"include": ["src/**/*", "rollup.config.ts"]
+}
