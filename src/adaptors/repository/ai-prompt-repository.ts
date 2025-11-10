@@ -2,6 +2,9 @@ import type { Logger } from "pino";
 import type { IAiPromptRepository } from "@/application/interfaces/ai-prompt-repository.interface";
 import { type IKv, KV_KEYS } from "@/application/interfaces/kv.interface";
 
+/**
+ * プロンプトをRedisから読み書きするリポジトリクラス
+ */
 export class AiPromptRepository implements IAiPromptRepository {
 	private readonly logger: Logger;
 	private readonly kv: IKv;

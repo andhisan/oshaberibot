@@ -15,6 +15,9 @@ import type { ChatUserImage } from "@/domains/entities/ai/chat-user-image";
 import { safeEnv } from "@/utils/env";
 import { generateAiUserId } from "@/utils/user-id";
 
+/**
+ * テキストによる会話をつかさどるリポジトリクラス
+ */
 export class AiChatRepository implements IAiChatRepository {
 	private readonly logger: Logger;
 	private readonly kv: IKv;
