@@ -17,6 +17,8 @@ GeminiとVCできるDiscord bot
 
 ## 技術スタック
 
+Nest.jsを使った[前回のサンプル](https://github.com/andhisan/necord-bullmq-example)よりも前に作ったものなので、アーキテクチャが我流になっており、保守性が悪いです。
+
 - Discord.js
 - Redis
 - @google/genai
@@ -36,6 +38,13 @@ GeminiとVCできるDiscord bot
 - インフラ
   - Fly.io (botデプロイ先, Redis)
 
+## 開発
+
+```sh
+make up
+npm run dev
+```
+
 ## デプロイ
 
 Fly.ioで下記のようなコマンドでデプロイします。アプリ名はグローバルで一意なので注意してください。
@@ -49,3 +58,7 @@ flyctl redis create \
   -n andhisan-oshaberibot-redis
 flyctl launch --copy-config --ha=false
 ```
+
+## GitHub Actions
+
+`FLY_API_TOKEN` にデプロイ用トークンを設定してください。
